@@ -1,0 +1,234 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para ti... 💌</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%), 
+                        linear-gradient(to bottom, rgba(253, 194, 235, 0.4) 0%, rgba(166, 193, 238, 0.4) 100%);
+            background-blend-mode: screen;
+            font-family: 'Lora', serif;
+            color: #4a4a4a;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #envelope-screen {
+            position: absolute;
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer; 
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .envelope-icon {
+            font-size: 6rem;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+        }
+
+        .click-text {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 20px 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 25px rgba(216, 27, 96, 0.15);
+            border: 1px solid rgba(216, 27, 96, 0.2);
+            font-size: 1.3rem;
+            color: #c2185b;
+            animation: pulseButton 2s infinite;
+        }
+
+        .click-text span {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #888;
+            font-style: italic;
+        }
+
+        #main-card-container {
+            display: none; 
+            opacity: 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 50px 40px;
+            border-radius: 30px;
+            border: 2px solid rgba(216, 27, 96, 0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), inset 0 0 15px rgba(255, 255, 255, 0.5);
+            max-width: 85%;
+            width: 480px;
+            text-align: center;
+            position: relative;
+        }
+
+        .show-card {
+            display: block !important;
+            animation: cardEntrance 1.5s ease-out forwards;
+        }
+
+        .show-card h1 {
+            animation: typing 2.5s steps(30, end) forwards, blink-caret 0.75s step-end infinite;
+            animation-delay: 1s;
+        }
+
+        .show-card p {
+            animation: fadeInText 1s ease-in forwards;
+        }
+
+        .show-card p.dedication { animation-delay: 3.5s; font-weight: 600; }
+        .show-card p.main-text { animation-delay: 4.2s; }
+        .show-card p.closure { animation-delay: 5.5s; font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: #d81b60; margin-top: 25px; }
+
+        .main-flower { font-size: 4rem; margin-bottom: 0; display: inline-block; animation: sway 3s ease-in-out infinite; }
+        h1 {
+            font-family: 'Great Vibes', cursive; color: #c2185b; font-size: 3.8rem; font-weight: normal; margin: 10px 0 20px 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+            overflow: hidden; white-space: nowrap; border-right: 2px solid #c2185b; width: 0; margin-left: auto; margin-right: auto;
+        }
+        .separator { font-size: 1.5rem; color: #f48fb1; margin: 15px 0; display: flex; align-items: center; justify-content: center; }
+        .separator::before, .separator::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, transparent, rgba(244, 143, 177, 0.5), transparent); margin: 0 15px; }
+        p { font-size: 1.15rem; line-height: 1.8; color: #5d4037; margin-bottom: 15px; opacity: 0; }
+
+        #petal-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        .petal { position: absolute; background-color: rgba(255, 182, 193, 0.8); border-radius: 50% 0 50% 50%; opacity: 0.8; animation: fall linear infinite; }
+        .petal.tulip { background-color: transparent; font-size: 1.5rem; }
+
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes pulseButton { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes cardEntrance { 0% { opacity: 0; transform: scale(0.8) translateY(50px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(105vh) rotate(720deg); opacity: 0; } }
+        @keyframes sway { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #c2185b; } }
+        @keyframes fadeInText { to { opacity: 1; } }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2.8rem; }
+            .card { padding: 35px 20px; width: 90%; }
+            p { font-size: 1rem; }
+            .click-text { font-size: 1.1rem; padding: 15px 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="envelope-screen" onclick="abrirCarta()">
+        <div class="envelope-icon">💌</div>
+        <div class="click-text">
+            Tengo algo especial para ti...
+            <br><br>
+            <strong>✨ Toca aquí para abrir ✨</strong>
+        </div>
+    </div>
+
+    <div id="petal-container"></div>
+
+    <div id="main-card-container">
+        <div class="card">
+            <div class="main-flower">🌷</div>
+            <h1>Feliz Día de la Mujer</h1>
+            
+            <div class="separator">❈</div>
+            
+            <p class="dedication">A ti, una mujer extraordinaria...</p>
+            
+            <p class="main-text">
+                Hoy celebramos no solo tu fuerza y valentía, sino la belleza única de tu ser. Como un tulipán que florece con elegancia, iluminas todo a tu alrededor con tu luz propia.
+            </p>
+            
+            <p class="main-text">
+                Gracias por inspirar, por amar y por ser, sencillamente, maravillosa cada día del año.
+            </p>
+            
+            <p class="closure">Feliz 8 de Marzo</p>
+        </div>
+    </div>
+
+    <script>
+       
+        function abrirCarta() {
+            const envelope = document.getElementById('envelope-screen');
+            const mainCard = document.getElementById('main-card-container');
+
+            envelope.style.opacity = '0';
+            envelope.style.transform = 'translateY(-30px)';
+            envelope.style.pointerEvents = 'none';
+
+            setTimeout(() => {
+                envelope.style.display = 'none';
+                mainCard.classList.add('show-card');
+                
+                iniciarLluviaDeFlores();
+            }, 600);
+        }
+
+        function iniciarLluviaDeFlores() {
+            const container = document.getElementById('petal-container');
+            const petalCount = 40;
+            const types = ['petal', 'petal', 'tulip', 'petal-pink', 'tulip-purple'];
+
+            for (let i = 0; i < petalCount; i++) {
+                crearPétalo(container, types);
+            }
+        }
+
+        function crearPétalo(container, types) {
+            const petal = document.createElement('div');
+            const type = types[Math.floor(Math.random() * types.length)];
+            
+            petal.className = `petal ${type}`;
+            petal.style.left = Math.random() * 100 + 'vw';
+            
+            const size = Math.random() * 15 + 10 + 'px';
+            if (type.includes('tulip')) {
+                petal.innerHTML = '🌷';
+                petal.style.fontSize = Math.random() * 1 + 1 + 'rem';
+            } else {
+                petal.style.width = size;
+                petal.style.height = size;
+            }
+
+            petal.style.animationDuration = Math.random() * 3 + 4 + 's';
+            petal.style.animationDelay = Math.random() * 5 + 's';
+            
+            if (type === 'petal-pink') {
+                petal.style.backgroundColor = `hsl(${Math.random() * 20 + 340}, 100%, 85%)`;
+            }
+
+            container.appendChild(petal);
+
+            petal.addEventListener('animationend', () => {
+                petal.remove();
+                crearPétalo(container, types); 
+            });
+        }
+    </script>
+</body>
+</html>
